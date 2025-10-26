@@ -1,0 +1,52 @@
+# 1. Dependencies and Build Output
+# ---
+# CRITICAL: Ignore all node_modules folders
+/node_modules
+/client/node_modules
+
+# Ignore common build artifacts created by Vite, Webpack, etc.
+/dist
+/client/dist
+/build
+/temp
+dist-ssr
+
+# 2. Configuration and Secrets
+# ---
+# CRITICAL: Ignore all environment variable files
+.env
+.env.local
+.env.*.local
+*.local
+
+# 3. Logs and npm Debug Files
+# ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.npm
+
+# 4. Editor / OS Artifacts
+# ---
+# Common OS and Editor files
+.DS_Store
+Thumbs.db
+
+# VS Code specific files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Other IDE files (e.g., IntelliJ/WebStorm)
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
