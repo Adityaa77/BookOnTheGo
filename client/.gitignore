@@ -50,3 +50,8 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+
+#others
+/notes.txt
+
