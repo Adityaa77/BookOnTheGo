@@ -12,17 +12,21 @@ const Navbar = () => {
       <Link to='/' className='max-md:flex-1'>
       <img src={assets.logo} alt='' className='w-36 h-auto'/>
       </Link>
-      <div className='max-md:absolute max-md:top-0 max-md:left-0 max-md:font-medium max-md:text-lg z-50 flex 
+
+      <div className={`max-md:absolute max-md:top-0 max-md:left-0 max-md:font-medium max-md:text-lg z-50 flex 
       flex-col md:flex-row items-center max-md:justify-center gap-8 min-md:px-8 py-3 max-md:h-screen min-md:rounded-full 
-      backdrop-blur bg-black/70 md:bg-white/10 md:border border-gray-300/20 overflow-hidden transition-[width] duration-300'>
+      backdrop-blur bg-black/70 md:bg-white/10 md:border border-gray-300/20 overflow-hidden transition-[width] 
+      duration-300 ${isOpen ? 'max-md:w-full':'max-md:w-0'}`}>
         {/*menu items */}
 
-        <XIcon className='md:hidden absolute top-6 right-6 w-6 h-6 cursor-pointer'/>
-      <Link to='/'>Home</Link>
-      <Link to='/movies'>Movies</Link>
-      <Link to='/'>Theaters</Link>
-      <Link to='/'>Releases</Link>
-      <Link to='/favourite'>Favourite</Link>
+      <XIcon className='md:hidden absolute top-6 right-6 w-6 h-6 
+      cursor-pointer' onClick={()=> setisOpen(!isOpen)}/>
+      
+      <Link onClick={()=> {scrollTo(0,0),  setisOpen(false)}} to='/'>Home</Link>
+      <Link onClick={()=> {scrollTo(0,0),  setisOpen(false)}} to='/movies'>Movies</Link>
+      <Link onClick={()=> {scrollTo(0,0),  setisOpen(false)}} to='/'>Theaters</Link>
+      <Link onClick={()=> {scrollTo(0,0),  setisOpen(false)}} to='/'>Releases</Link>
+      <Link onClick={()=> {scrollTo(0,0),  setisOpen(false)}} to='/favourite'>Favourite</Link>
       </div>
 
       <div className='flex items-center gap-8'>
@@ -31,7 +35,8 @@ const Navbar = () => {
          transition rounded-full font-mmedium cursor-pointer'>Login</button>
       </div>
 
-     <MenuIcon className='max-md:ml-4 md:hidden w-8 h-8 cursor-pointer'/>
+     <MenuIcon className='max-md:ml-4 md:hidden w-8 h-8 cursor-pointer'
+     onClick={()=> setisOpen(!isOpen)}/>
     
     </div>
   )
