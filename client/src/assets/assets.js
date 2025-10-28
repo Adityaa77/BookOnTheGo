@@ -1,4 +1,4 @@
-import logo from './logo.svg'
+import logo1 from './logo1.svg'
 import mappalogo from './mappalogo.svg'
 import googlePlay from './googlePlay.svg'
 import appStore from './appStore.svg'
@@ -6,7 +6,7 @@ import screenImage from './screenImage.svg'
 import profile from './profile.png'
 
 export const assets = {
-    logo,
+    logo1,
     mappalogo,
     googlePlay,
     appStore,
