@@ -1,9 +1,11 @@
 import React from 'react'
 import { assets } from '../assets/assets'
 import bgImage from '../assets/chainsaw-man-reze-arc-movie.jpg'
-import { CalendarIcon, ClockIcon } from 'lucide-react'
+import { ArrowRight, CalendarIcon, ClockIcon } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const HeroSection = () => {
+    const navigate=useNavigate()
   return (
     <div
       className='flex flex-col items-start justify-center gap-4 px-6 md:px-16 lg:px-36 bg-cover bg-center h-screen'
@@ -22,6 +24,15 @@ const HeroSection = () => {
           <ClockIcon className='w-4.5 h-4.5' /> 1h 40m
         </div>
       </div>
+      <p className='max-w-md text-gray-300'>Denji worked as a Devil Hunter for the yakuza, 
+        trying to pay off the debt he inherited from his parents, until the yakuza betrayed him and had him killed. As he was losing consciousness, Denji's beloved chainsaw-powered devil-dog, Pochita, made a deal with Denji and saved his life. 
+        This fused the two together, creating the unstoppable Chainsaw Man.</p>
+        <button onClick={()=>navigate('/movies')} className=' flex items-center gap-1 px-6
+        py-3 text-sm bg-primary hover:bg-primary-dull treansition rounder-full
+        font-medium cursor-pointer'>
+            Explore Movies
+            <ArrowRight className='w-5 h-5'/>
+        </button>
     </div>
   )
 }

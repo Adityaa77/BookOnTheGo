@@ -4,6 +4,7 @@ import googlePlay from './googlePlay.svg'
 import appStore from './appStore.svg'
 import screenImage from './screenImage.svg'
 import profile from './profile.png'
+import marvelLogo from './marvelLogo.svg'
 
 export const assets = {
     logo1,
@@ -11,7 +12,8 @@ export const assets = {
     googlePlay,
     appStore,
     screenImage,
-    profile
+    profile,
+    marvelLogo,
 }
 
 export const dummyTrailers = [
