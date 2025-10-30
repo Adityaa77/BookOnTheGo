@@ -17,55 +17,30 @@ const Footer = () => {
                         and book movie tickets in seconds. Real-time showtimes, easy seating, zero hassle. 
                         Your ultimate movie night starts now.
                     </p>
-
                 </div>
-
                 <div className="flex-1 flex items-start md:justify-end gap-20">
-
                     <div>
-
                         <h2 className="font-semibold mb-5 text-gray-800">Company</h2>
-
                         <ul className="text-sm space-y-2">
-
                             <li><a href="#">Home</a></li>
-
                             <li><a href="#">About us</a></li>
-
                             <li><a href="#">Contact us</a></li>
-
                             <li><a href="#">Privacy policy</a></li>
-
                         </ul>
-
                     </div>
-
                     <div>
-
                         <h2 className="font-semibold mb-5 text-gray-800">Get in touch</h2>
-
                         <div className="text-sm space-y-2">
-
                             <p>+91-7021909379</p>
-
                             <p>contact@example.com</p>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
             <p className="pt-4 text-center text-xs md:text-sm pb-5">
-
                 Copyright 2024 © <a href="https://prebuiltui.com">BookOnTheGo</a>. All Right Reserved.
-
             </p>
-
         </footer>
   )
 }
-
 export default Footer
