@@ -9,6 +9,7 @@ const Home = () => {
       <HeroSection/>
       <MoviesSection/>
       <TrailerSection/>
+      
     </>
   )
 }
