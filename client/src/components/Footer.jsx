@@ -32,7 +32,7 @@ const Footer = () => {
                         <h2 className="font-semibold mb-5 text-gray-800">Get in touch</h2>
                         <div className="text-sm space-y-2">
                             <p>+91-7021909379</p>
-                            <p>contact@example.com</p>
+                            <p>singhaditya0020@gmail.com</p>
                         </div>
                     </div>
                 </div>
