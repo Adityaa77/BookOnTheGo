@@ -31,7 +31,7 @@ const SeatLayout = () => {
 
 const handleSeatClick=(seatId)=>{
   if (!selectedTime){
-    return toast("Please select tkme first")
+    return toast("Please select time first")
   }
   if(!selectedSeats.includes(seatId)&& selectedSeats.length>4){
     return toast('You can only select 5 seats')
