@@ -24,7 +24,7 @@ const App = () => {
         <Route path='/booking' element={<MyBooking/>} />
         <Route path='/favourite' element={<Favourite/>} />
         <Route path='/movies/:id' element={<MovieDetails/>} />
-        <Route path='/movies/:id/date' element={<SeatLayout/>} />
+        <Route path='/movies/:id/:date' element={<SeatLayout/>} />
       </Routes>
        {!ifAdminRoute && <Footer/>}{/*Use this to not show the Footer when admin  */}
     </>
