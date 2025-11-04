@@ -1,3 +1,4 @@
+import axios from "axios";
 
 
 // API to get now playing movies from TMDB API
