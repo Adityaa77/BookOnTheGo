@@ -1,15 +1,15 @@
+
 import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import Title from "../../components/admin/Title";
 import { CheckIcon, DeleteIcon, StarIcon } from "lucide-react";
-
-
 import toast from "react-hot-toast";
 import { kConverter } from "../../lib/Kconvert";
 import { dummyShowsData } from "../../assets/assets";
+import { useAppContext } from "../../context/AppContext";
 
 const AddShows = () => {
-  
+  const {axios,getToken, user, image_base_url}=useAppContext()
 
   const currency = import.meta.env.VITE_CURRENCY;
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
@@ -18,43 +18,90 @@ const AddShows = () => {
   const [dateTimeInput, setDateTimeInput] = useState("");
   const [showPrice, setShowPrice] = useState("");
   const [addingShow, setAddingShow] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  
 
-  const fetchNowPlayingMovies = async () => {
-        setNowPlayingMovies(dummyShowsData);
+ const fetchNowPlayingMovies = async () => {
+    try {
+      const { data } = await axios.get("/api/show/now-playing", {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
+
+      if (data.success) {
+        setNowPlayingMovies(data.movies);
+      }
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+    }
+  };
+
+
+
+const handleDateTimeAdd = () => {
+  if (!selectedDate || !selectedTime) {
+    toast("Please select both date and time");
+    return;
   }
 
+  setDateTimeSelection((prev) => {
+    const times = prev[selectedDate] || [];
+    if (!times.includes(selectedTime)) {
+      return { ...prev, [selectedDate]: [...times, selectedTime] };
+    }
+    return prev;
+  });
 
-  const handleDateTimeAdd = () => {
-    if (!dateTimeInput) return;
-    const [date, time] = dateTimeInput.split("T");
-    if (!date || !time) return;
+  // reset the time field after adding
+  setSelectedTime("");
+};
+  
+    const handleSubmit = async () => {
+    try {
+      setAddingShow(true);
 
-    setDateTimeSelection((prev) => {
-      const times = prev[date] || [];
-      if (!times.includes(time)) {
-        return { ...prev, [date]: [...times, time] };
+      if (
+        !selectedMovie ||
+        Object.keys(dateTimeSelection).length === 0 ||
+        !showPrice
+      ) {
+        return toast("Missing required fields");
       }
-      return prev;
-    });
-  };
 
-  const handleRemoveTime = (date, time) => {
-    setDateTimeSelection((prev) => {
-      const filteredTimes = prev[date].filter((t) => t !== time);
-      if (filteredTimes.length === 0) {
-        const { [date]: _, ...rest } = prev;
-        return rest;
-      }return {
-        ...prev,
-        [date]:filteredTimes,
+      const showsInput = Object.entries(dateTimeSelection).map(
+        ([date, time]) => ({ date, time })
+      );
+
+      const payload = {
+        movieId: selectedMovie,
+        showsInput,
+        showPrice: Number(showPrice),
       };
 
-    });
+      const { data } = await axios.post("/api/show/add", payload, {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
+
+      if (data.success) {
+        toast.success(data.message);
+        setSelectedMovie(null);
+        setDateTimeSelection({});
+        setShowPrice("");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("An error occurred. Please try again.");
+    }
+    setAddingShow(false);
   };
 
-  useEffect(() => {
+   useEffect(() => {
+    if (user) {
       fetchNowPlayingMovies();
-  }, []);
+    }
+  }, [user]);
 
   return nowPlayingMovies.length > 0 ? (
     <>
@@ -69,7 +116,7 @@ const AddShows = () => {
               duration-300`} onClick={()=> setSelectedMovie(movie.id)}>
               <div className="relative rounded-lg overflow-hidden">
                 <img
-                  src={ movie.poster_path}
+                  src={ image_base_url + movie.poster_path}
                   alt="movie_poster"
                   className="w-full object-cover brightness-90"
                 />
@@ -111,26 +158,33 @@ const AddShows = () => {
         </div>
       </div>
 
-      {/* Date & Time Selection */}
-      <div className="mt-6">
-        <label className="block text-sm font-medium mb-2">
-          Select Date and Time
-        </label>
-        <div className="inline-flex gap-5 border border-gray-600 p-1 pl-3 rounded-lg">
-          <input
-            type="datetime-local"
-            value={dateTimeInput}
-            onChange={(e) => setDateTimeInput(e.target.value)}
-            className="outline-none rounded-md"
-          />
-          <button
-            onClick={handleDateTimeAdd}
-            className="bg-primary/80 text-white px-3 py-2 text-sm rounded-lg hover:bg-primary cursor-pointer"
-          >
-            Add Time
-          </button>
-        </div>
-      </div>
+   {/* Date & Time Selection */}
+<div className="mt-6">
+  <label className="block text-sm font-medium mb-2">
+    Select Date and Time
+  </label>
+  <div className="inline-flex items-center gap-3 border border-gray-600 p-2 rounded-lg">
+    <input
+      type="date"
+      value={selectedDate}
+      onChange={(e) => setSelectedDate(e.target.value)}
+      className="outline-none rounded-md bg-transparent text-white border border-gray-500 px-2 py-1 focus:border-primary"
+    />
+    <input
+      type="time"
+      step="60" // allows selecting hours & minutes
+      value={selectedTime}
+      onChange={(e) => setSelectedTime(e.target.value)}
+      className="outline-none rounded-md bg-transparent text-white border border-gray-500 px-2 py-1 focus:border-primary"
+    />
+    <button
+      onClick={handleDateTimeAdd}
+      className="bg-primary/80 text-white px-3 py-2 text-sm rounded-lg hover:bg-primary cursor-pointer"
+    >
+      Add Time
+    </button>
+  </div>
+</div>
 
       {/* Display Selected Times */}
       {Object.keys(dateTimeSelection).length > 0 && (
@@ -161,14 +215,17 @@ const AddShows = () => {
         </div>
       )}
 
-      <button
+       <button
+        onClick={handleSubmit}
+        disabled={addingShow}
         className="bg-primary text-white px-8 py-2 mt-6 rounded hover:bg-primary/90 transition-all cursor-pointer"
       >
         Add Show
       </button>
     </>
-  ) : 
+  ) : (
     <Loading />
-}
+  );
+};
 
-export default AddShows
+export default AddShows;

@@ -5,8 +5,11 @@ import { dateFormat } from "../../lib/dateFormat";
 import Loading from "../../components/Loading";
 import { dummyDashboardData } from "../../assets/assets";
 import Title from "../../components/admin/Title";
+import { useAppContext } from "../../context/AppContext";
 
 const Dashboard = () => {
+
+   const {axios,getToken, user, image_base_url}=useAppContext()
 
   const currency = import.meta.env.VITE_CURRENCY;
 
@@ -42,14 +45,29 @@ const Dashboard = () => {
     },
   ];
 
-  const fetchDashboardData = async () => {
-        setDashboardData(dummyDashboardData);
+    const fetchDashboardData = async () => {
+    try {
+      const { data } = await axios.get("/api/admin/dashboard", {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
+
+      if (data.success) {
+        setDashboardData(data.dashboardData);
         setLoading(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Error fetching dashboard data:", error);
+    }
   };
 
   useEffect(() => {
+    if (user) {
       fetchDashboardData();
-  }, []);
+    }
+  }, [user]);
+
 
   return !loading ? (
     <>
@@ -81,7 +99,7 @@ const Dashboard = () => {
             className="w-55 rounded-lg overflow-hidden h-full pb-3 bg-primary/10 border border-primary/20 hover:-translate-y-1 transition duration-300"
           >
             <img
-              src={show.movie.poster_path}
+              src={image_base_url + show.movie.poster_path}
               alt="poster"
               className="h-60 w-full object-cover"
             />
